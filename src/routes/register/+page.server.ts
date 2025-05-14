@@ -8,12 +8,11 @@ import { createId } from '@paralleldrive/cuid2';
 import pino from 'pino';
 import { logger } from '$lib/stores/logger';
 
-// TODO: Add session check
-// export const load: PageServerLoad = async ({ locals }) => {
-//   if (locals.user) {
-//     throw redirect(302, '/');
-//   }
-// };
+export const load: PageServerLoad = async ({ locals }) => {
+	if (locals.user) {
+		throw redirect(302, '/');
+	}
+};
 
 const register: Action = async ({ request }) => {
 	try {
