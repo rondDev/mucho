@@ -3,12 +3,15 @@ import en from 'javascript-time-ago/locale/en';
 import TimeAgo from 'javascript-time-ago';
 import { logger } from '$lib/stores/logger';
 import { PUBLIC_DOMAIN } from '$env/static/public';
+import toast, { Toaster } from 'svelte-french-toast';
+import Navigation from '$lib/components/Navigation.svelte';
 
 type fileType = {
 	fileName: string;
 	size: string;
 	updatedAt: string;
 	contentType: string;
+	key: string;
 };
 const { data } = $props();
 
@@ -25,6 +28,8 @@ function calculate(file: fileType) {
 }
 </script>
 
+<Toaster />
+<Navigation />
 <div
   class="h-full max-w-full rounded-lg m-12 xl:m-18 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 bg-gradient-to-br from-[#04102D] to-[#020817] text-white justify-items-center"
 >
@@ -46,14 +51,22 @@ function calculate(file: fileType) {
         />
       </a>
       <div class="flex my-2 lg:h-[4rem] items-center justify-between">
-        <input type="hidden" name="file" value={file.fileFullName} />
+        <form action="?/remove" method="POST">
+          <input type="hidden" name="file" value={file.key} />
         <!-- TODO: implement functionality for delete -->
-        <button
+          <button
           class="p-2 xl:w-[6rem] h-[2rem] rounded-lg self-center border border-red-500 text-red-500 text-xs lg:text-sm flex justify-center items-center cursor-pointer"
         >
           Delete
-        </button>
+          </button>
+        </form>
         <button
+          onclick={() => {
+              navigator.clipboard.writeText(
+                `${PUBLIC_DOMAIN}/${file.fileName}`,
+              );
+              toast.success('Link copied to clipboard');
+            }}
           class="p-2 xl:w-[6rem] h-[2rem] rounded-lg self-center border border-blue-400
                 text-blue-400 text-xs lg:text-sm flex justify-center items-center cursor-pointer"
         >
