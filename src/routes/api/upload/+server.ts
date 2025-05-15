@@ -77,11 +77,12 @@ export async function POST({ request }) {
 				Body: await fileInput.bytes(),
 			}),
 		);
+		// TODO: rework how to name files, currently only random name shows
 		await db
 			.insertInto('files')
 			.values({
 				id: createId(),
-				fileName: fileName,
+				fileName: fileNameRand,
 				fileSize: bytesToSize(fileInput.size),
 				mimeType: fileObject.contenttype,
 				bucket: process.env.S3_BUCKET || 'image',
@@ -90,7 +91,7 @@ export async function POST({ request }) {
 			})
 			.execute();
 		return json({
-			url: `${PUBLIC_DOMAIN}/${fileName}`,
+			url: `${PUBLIC_DOMAIN}/${fileNameRand}`,
 		});
 	} catch (e) {
 		console.log(e);
