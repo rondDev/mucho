@@ -10,6 +10,7 @@ export interface Database {
 	users: UsersTable;
 	sessions: SessionsTable;
 	file_upload_keys: UploadKeysTable;
+	files: FilesTable;
 }
 
 export interface UsersTable {
@@ -52,3 +53,21 @@ export interface UploadKeysTable {
 export type UploadKeys = Selectable<UploadKeysTable>;
 export type NewUploadKeys = Insertable<UploadKeysTable>;
 export type UploadKeysUpdate = Updateable<UploadKeysTable>;
+
+export interface FilesTable {
+	id: string;
+	title: string | null;
+	fileName: string;
+	fileSize: string;
+	mimeType: string;
+	bucket: string;
+	key: string;
+	userId: string;
+	expire: Date | null;
+	createdAt: Generated<Date>;
+	updatedAt: Generated<Date>;
+}
+
+export type Files = Selectable<FilesTable>;
+export type NewFiles = Insertable<FilesTable>;
+export type FilesUpdate = Updateable<FilesTable>;
