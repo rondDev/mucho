@@ -1,4 +1,3 @@
-import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { s3Client } from '$lib/s3';
 import cryptoRandomString from 'crypto-random-string';
 import { db } from '$lib/db/database';
@@ -69,14 +68,9 @@ export async function POST({ request }) {
 			: fileObject.name;
 		const fileKey = `${user.username}/${fileName}`;
 
-		const file = await s3Client.send(
-			new PutObjectCommand({
-				Bucket: S3_BUCKET || 'image',
-				Key: fileKey,
-				ContentType: fileObject.type,
-				Body: await fileInput.bytes(),
-			}),
-		);
+		const file = await s3Client.write(fileKey, await fileInput.bytes(), {
+			type: fileObject.type,
+		});
 		// TODO: rework how to name files, currently only random name shows
 		await db
 			.insertInto('files')

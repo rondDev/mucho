@@ -2,7 +2,6 @@ import { db } from '$lib/db/database';
 import { s3Client } from '$lib/s3';
 import { logger } from '$lib/stores/logger';
 import { bytesToSize } from '$lib/utils';
-import { GetObjectCommand } from '@aws-sdk/client-s3';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ params }) => {
@@ -29,16 +28,12 @@ async function getMetadata(filename: string) {
 			};
 		}
 
-		const file = await s3Client.send(
-			new GetObjectCommand({
-				Bucket: fileData.bucket,
-				Key: fileData.key,
-			}),
-		);
+		const file = s3Client.file(fileData.key);
+		const fileStat = await s3Client.stat(fileData.key);
 		return {
 			fileName: filename,
-			size: bytesToSize(file.ContentLength || 0),
-			contentType: file.ContentType,
+			size: bytesToSize(fileStat.size || 0),
+			contentType: fileStat.type,
 			uploadedAt: fileData.createdAt,
 			uploader: fileData.username,
 		};
