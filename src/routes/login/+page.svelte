@@ -1,20 +1,19 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
-  import { goto, pushState } from "$app/navigation";
-  import { page } from "$app/state";
-  import type { ActionData } from "./$types";
-  import toast, { Toaster } from "svelte-french-toast";
+import { browser } from '$app/environment';
+import { goto, pushState } from '$app/navigation';
+import { page } from '$app/state';
+import toast, { Toaster } from 'svelte-french-toast';
 
-  let { form } = $props();
-  if (page.data.justRegistered) {
-    toast.success("Registration successful", {
-      duration: 5000,
-      position: "bottom-center",
-    });
-    if (browser) {
-      goto("/login", { replaceState: true, noScroll: true, keepFocus: true });
-    }
-  }
+let { form } = $props();
+if (page.data.justRegistered) {
+	toast.success('Registration successful', {
+		duration: 5000,
+		position: 'bottom-center',
+	});
+	if (browser) {
+		goto('/login', { replaceState: true, noScroll: true, keepFocus: true });
+	}
+}
 </script>
 
 <svelte:head>
