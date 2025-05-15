@@ -94,7 +94,6 @@ export async function POST({ request }) {
 			url: `${PUBLIC_DOMAIN}/${fileNameRand}`,
 		});
 	} catch (e) {
-		console.log(e);
 		logger.error('[api/upload | catch]', e);
 		return json({
 			error: e,
