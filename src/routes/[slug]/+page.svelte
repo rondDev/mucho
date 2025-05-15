@@ -3,7 +3,6 @@ import en from 'javascript-time-ago/locale/en';
 import TimeAgo from 'javascript-time-ago';
 import Icon from '@iconify/svelte';
 import { PUBLIC_DOMAIN } from '$env/static/public';
-import { onMount } from 'svelte';
 const { data } = $props();
 const { fileName, size, contentType, uploadedAt, uploader } = $state(data);
 TimeAgo.addLocale(en);
@@ -61,8 +60,8 @@ function calculate(uploadTime: string) {
           <div class="text-center grow h-full p-0">
             <div
               class="flex flex-col md:flex-row justify-center items-center md:h-full h-min pt-6 pb-6 gap-10 md:gap-0">
-              <div class="flex flex-col justify-evenly items-center mr-auto grow gap-2 h-full w-full">
-                <p class="sm:text-lg md:text-2xl text-xs">{ fileName }</p>
+              <div class="flex flex-col justify-evenly items-center mx-4 grow gap-2 h-full w-1/2">
+                <p class="sm:text-lg md:text-2xl text-xs text-wrap overflow-hidden break-words m-2 w-full">{ fileName }</p>
                 <a href={`/api/file/${fileName}`}
                   class="w-2/3 flex justify-evenly items-center border py-2 border-blue-600 rounded-md lt-md:text-xs lt-md:w-[45%]">
                   <Icon icon="material-symbols:download" height="1em" mode="svg" />
@@ -79,7 +78,7 @@ function calculate(uploadTime: string) {
                 <div class="flex flex-col justify-evenly text-md lt-md:text-xs items-center">
                   <Icon icon="lucide:clock-1" height="1.4em" mode="svg" />
                   <p class="text-[10px]">UPLOAD TIME</p>
-                  <p>{ calculate(uploadedAt) }</p>
+                  <p>{ calculate(uploadedAt?.toString() || "") }</p>
                 </div>
                 <div class="flex flex-col justify-evenly text-md lt-md:text-xs items-center">
                   <Icon icon="lucide:file-digit" height="1.4em" mode="svg" />

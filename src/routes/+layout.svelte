@@ -6,6 +6,5 @@ import 'virtual:uno.css';
 <div
   class="bg-[#09090b] text-[#fafafa] absolute min-h-[100vh] min-w-[100vw] bg-[#09090b] text-[#fafafa]"
 >
-  <Navigation />
   <slot />
 </div>
