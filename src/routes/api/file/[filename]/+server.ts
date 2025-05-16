@@ -28,7 +28,7 @@ export async function GET({ params }) {
 				error: 'No file found',
 			};
 		}
-		const response = new Response(file);
+		const response = new Response(await file.bytes());
 		response.headers.set('Content-Type', fileStat.type || '');
 		return response;
 	} catch (e) {
