@@ -14,7 +14,8 @@ export async function POST({ request }) {
 		const formDataBody = await request.formData();
 		const uploadKey = String(formDataBody.get('key'));
 		const fileInput = formDataBody.get('d') as File;
-		const randomizeFilename = String(formDataBody.get('name')) === 'true';
+		const randomizeFilename =
+			String(formDataBody.get('randomize_filename')) === 'true';
 		if (!fileInput) {
 			return json({
 				error: 'No file data provided',
@@ -63,23 +64,23 @@ export async function POST({ request }) {
 			type: 'alphanumeric',
 		});
 		// NOTE: Might need to add file extension to the random name
+		console.log(fileObject);
 		const fileName = randomizeFilename
-			? `${fileNameRand}.${mime.extension(fileObject.name)}`
+			? `${fileNameRand}${mime.extension(fileObject.type || '') ? `.${mime.extension(fileObject.type || '')}` : ''}`
 			: fileObject.name;
-		const fileKey = `${user.username}/${fileName}`;
+		const fileKey = `${user.username}/${fileNameRand}`;
 
 		const file = await s3Client.write(fileKey, await fileInput.bytes(), {
 			type: fileObject.type,
 		});
-		// TODO: rework how to name files, currently only random name shows
 		await db
 			.insertInto('files')
 			.values({
 				id: createId(),
-				fileName: fileNameRand,
+				fileName: fileName,
 				fileSize: bytesToSize(fileInput.size),
 				mimeType: fileObject.contenttype,
-				bucket: process.env.S3_BUCKET || 'image',
+				bucket: S3_BUCKET || 'image',
 				key: fileKey,
 				userId: user.id,
 				stub: fileNameRand,
