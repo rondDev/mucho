@@ -1,7 +1,7 @@
-import { defineConfig, presetWind4 } from 'unocss';
+import { defineConfig, presetAttributify, presetWind4 } from 'unocss';
 
 export default defineConfig({
-	presets: [presetWind4({ reset: true })],
+	presets: [presetWind4({ reset: true }), presetAttributify()],
 	rules: [],
 	shortcuts: [
 		{
