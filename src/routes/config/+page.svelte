@@ -15,8 +15,7 @@ const randomizeFileNames = false;
 
 const config = {
 	Version: '15.0.0',
-	DestinationType:
-		'ImageUploader, TextUploader, FileUploader, URLShortener, URLSharingService',
+	DestinationType: 'ImageUploader, TextUploader, FileUploader',
 	RequestMethod: 'POST',
 	RequestURL: `${PUBLIC_DOMAIN}/api/upload`,
 	Headers: {
