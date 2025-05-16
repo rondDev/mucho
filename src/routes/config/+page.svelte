@@ -8,7 +8,7 @@ import json from 'shiki/langs/json.mjs';
 
 const { data } = $props();
 
-let showRaw = $state(true);
+let showRaw = $state(false);
 
 // TODO: Add randomize toggle
 const randomizeFileNames = false;
