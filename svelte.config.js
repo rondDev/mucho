@@ -7,6 +7,9 @@ const config = {
 		adapter: adapter({
 			dynamic_origin: true,
 		}),
+		csrf: {
+			checkOrigin: false,
+		},
 	},
 	alias: {
 		$lib: './src/lib',
