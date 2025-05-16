@@ -2,6 +2,7 @@ import { db } from '$lib/db/database';
 import { s3Client } from '$lib/s3';
 import { logger } from '$lib/stores/logger';
 import { bytesToSize } from '$lib/utils';
+import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ params }) => {
@@ -24,9 +25,7 @@ async function getMetadata(filename: string) {
 			.executeTakeFirst();
 
 		if (!fileData) {
-			return {
-				error: 'File not found',
-			};
+			throw redirect(404, '/');
 		}
 
 		const file = s3Client.file(fileData.key);
