@@ -20,7 +20,7 @@ function calculate(uploadTime: string) {
 // });
 </script>
 <svelte:head>
-  {#if contentType.includes('image')}
+  {#if contentType && contentType.includes('image')}
 <meta
       property="og:image"
       content={`${PUBLIC_DOMAIN}/api/file/${fileName}`} />
@@ -28,7 +28,7 @@ function calculate(uploadTime: string) {
     <!-- <meta property="og:image:height" content={`${""}`} /> -->
     <meta name="twitter:card" content="summary_large_image" />
 {/if}
-  {#if contentType.includes('video')}
+  {#if contentType && contentType.includes('video')}
       property="og:video"
       content={`${PUBLIC_DOMAIN}/api/file/${fileName}`} />
     <meta property="og:type" content="video" />
@@ -46,10 +46,10 @@ function calculate(uploadTime: string) {
     <div class="h-screen w-screen overflow-y-scroll pb-8">
       <div class="flex items-center justify-center">
         <div class="m-20">
-      {#if fileName && contentType.includes('image')}
+      {#if fileName && contentType && contentType.includes('image')}
           <img draggable="false" src={`${PUBLIC_DOMAIN}/api/file/${fileName}`} alt={fileName} />
       {/if}
-      {#if fileName && contentType.includes('video')}
+      {#if fileName && contentType && contentType.includes('video')}
           <video autoplay loop muted controls src={`${PUBLIC_DOMAIN}/api/file/${fileName}`} ></video>
       {/if}
         </div>
