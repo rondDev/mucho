@@ -4,7 +4,8 @@ import TimeAgo from 'javascript-time-ago';
 import Icon from '@iconify/svelte';
 import { PUBLIC_DOMAIN } from '$env/static/public';
 const { data } = $props();
-const { fileName, size, contentType, uploadedAt, uploader } = $state(data);
+const { fileName, size, contentType, uploadedAt, uploader, stub } =
+	$state(data);
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo('en-US');
 
@@ -13,44 +14,43 @@ function calculate(uploadTime: string) {
 		return timeAgo.format(Date.parse(uploadTime), 'round');
 	} catch (e) {}
 }
-// useSeoMeta({
-// 	title: `${config.public.domain.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('.')[0]} - screenshot uploader`,
-// 	ogImage: `${config.public.domain}/api/file/${fileName}`,
-// 	twitterCard: 'summary_large_image',
-// });
 </script>
 <svelte:head>
   {#if contentType && contentType.includes('image')}
+<link
+    rel="alternate"
+    type="application/json+oembed"
+    href={`${PUBLIC_DOMAIN}/api/oembed`} />
 <meta
       property="og:image"
-      content={`${PUBLIC_DOMAIN}/api/file/${fileName}`} />
+      content={`${PUBLIC_DOMAIN}/api/file/${stub}`} />
     <!-- <meta property="og:image:width" content={`${""}`} /> -->
     <!-- <meta property="og:image:height" content={`${""}`} /> -->
     <meta name="twitter:card" content="summary_large_image" />
 {/if}
   {#if contentType && contentType.includes('video')}
       property="og:video"
-      content={`${PUBLIC_DOMAIN}/api/file/${fileName}`} />
+      content={`${PUBLIC_DOMAIN}/api/file/${stub}`} />
     <meta property="og:type" content="video" />
     <!-- <meta property="og:video:width" content={`${""}`} /> -->
     <!-- <meta property="og:video:height" content={`${""}`} /> -->
     <meta
       property="twitter:player"
-      content={`${PUBLIC_DOMAIN}/api/files/${fileName}`} />
+      content={`${PUBLIC_DOMAIN}/api/files/${stub}`} />
     <meta property="twitter:card" content="player" />
   {/if}
   <meta
     name="twitter:image"
-    content={`${PUBLIC_DOMAIN}/api/file/${fileName}`} />
+    content={`${PUBLIC_DOMAIN}/api/file/${stub}`} />
 </svelte:head>
     <div class="h-screen w-screen overflow-y-scroll pb-8">
       <div class="flex items-center justify-center">
         <div class="m-20">
-      {#if fileName && contentType && contentType.includes('image')}
-          <img draggable="false" src={`${PUBLIC_DOMAIN}/api/file/${fileName}`} alt={fileName} />
+      {#if stub && contentType && contentType.includes('image')}
+          <img draggable="false" src={`${PUBLIC_DOMAIN}/api/file/${stub}`} alt={fileName} />
       {/if}
-      {#if fileName && contentType && contentType.includes('video')}
-          <video autoplay loop muted controls src={`${PUBLIC_DOMAIN}/api/file/${fileName}`} ></video>
+      {#if stub && contentType && contentType.includes('video')}
+          <video autoplay loop muted controls src={`${PUBLIC_DOMAIN}/api/file/${stub}`} ></video>
       {/if}
         </div>
       </div>
@@ -62,8 +62,8 @@ function calculate(uploadTime: string) {
               class="flex flex-col md:flex-row justify-center items-center md:h-full h-min pt-6 pb-6 gap-10 md:gap-0">
               <div class="flex flex-col justify-evenly items-center mx-4 grow gap-2 h-full w-1/2">
                 <p class="sm:text-lg md:text-2xl text-xs text-wrap overflow-hidden break-words m-2 w-full">{ fileName }</p>
-                <a href={`/api/file/${fileName}`}
-                  class="w-2/3 flex justify-evenly items-center border py-2 border-blue-600 rounded-md lt-md:text-xs lt-md:w-[45%]">
+                <a href={`/api/file/${stub}`}
+                  class="w-2/3 flex justify-evenly items-center border py-2 border-blue-600 rounded-md lt-md:text-xs lt-md:w-[65%]">
                   <Icon icon="material-symbols:download" height="1em" mode="svg" />
                   Download
                 </a>

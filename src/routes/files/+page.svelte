@@ -12,6 +12,7 @@ type fileType = {
 	updatedAt: string;
 	contentType: string;
 	key: string;
+	stub: string;
 };
 const { data } = $props();
 
@@ -44,10 +45,10 @@ function calculate(file: fileType) {
           <p class="text-xs lg:text-sm">{file.size}</p>
         </div>
       </div>
-      <a class="flex justify-center h-[10rem] lg:h-[10rem] xl:h-[13rem]" href={`${PUBLIC_DOMAIN}/api/file/${file.fileName}`} target="_blank">
+      <a class="flex justify-center h-[10rem] lg:h-[10rem] xl:h-[13rem]" href={`${PUBLIC_DOMAIN}/api/file/${file.stub}`} target="_blank">
         <img
           class="flex object-contain h-full"
-          src={`${PUBLIC_DOMAIN}/api/file/${file.fileName}`}
+          src={`${PUBLIC_DOMAIN}/api/file/${file.stub}`}
         />
       </a>
       <div class="flex my-2 lg:h-[4rem] items-center justify-between">
@@ -63,7 +64,7 @@ function calculate(file: fileType) {
         <button
           onclick={() => {
               navigator.clipboard.writeText(
-                `${PUBLIC_DOMAIN}/${file.fileName}`,
+                `${PUBLIC_DOMAIN}/${file.stub}`,
               );
               toast.success('Link copied to clipboard');
             }}

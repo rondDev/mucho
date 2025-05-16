@@ -82,6 +82,7 @@ export async function POST({ request }) {
 				bucket: process.env.S3_BUCKET || 'image',
 				key: fileKey,
 				userId: user.id,
+				stub: fileNameRand,
 			})
 			.execute();
 		return json({

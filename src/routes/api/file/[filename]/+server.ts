@@ -3,15 +3,15 @@ import { s3Client } from '$lib/s3';
 
 export async function GET({ params }) {
 	try {
-		const fileUrl = params.filename;
-		if (!fileUrl) {
+		const fileStub = params.filename;
+		if (!fileStub) {
 			return {
 				error: 'No file url specified',
 			};
 		}
 		const fileData = await db
 			.selectFrom('files')
-			.where('fileName', '=', fileUrl)
+			.where('stub', '=', fileStub)
 			.selectAll()
 			.executeTakeFirst();
 

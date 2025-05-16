@@ -13,11 +13,12 @@ async function getMetadata(filename: string) {
 		const fileData = await db
 			.selectFrom('files')
 			.innerJoin('users', 'users.id', 'files.userId')
-			.where('fileName', '=', filename)
+			.where('stub', '=', filename)
 			.select([
 				'files.createdAt',
 				'files.bucket',
 				'files.key',
+				'files.stub',
 				'users.username',
 			])
 			.executeTakeFirst();
@@ -36,6 +37,7 @@ async function getMetadata(filename: string) {
 			contentType: fileStat.type,
 			uploadedAt: fileData.createdAt,
 			uploader: fileData.username,
+			stub: fileData.stub,
 		};
 	} catch (e) {
 		logger.error('[api/files | catch]', e);

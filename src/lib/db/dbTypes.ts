@@ -66,6 +66,7 @@ export interface FilesTable {
 	expire: Date | null;
 	createdAt: Generated<Date>;
 	updatedAt: Generated<Date>;
+	stub: string;
 }
 
 export type Files = Selectable<FilesTable>;

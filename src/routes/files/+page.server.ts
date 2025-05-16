@@ -72,6 +72,7 @@ export const load = async ({ cookies, locals, url }) => {
 				contentType: fileStat.type,
 				updatedAt: f.updatedAt,
 				key: fileData.key,
+				stub: fileData.stub,
 			});
 		}
 		// logger.info('[files/server] Files:', files);
