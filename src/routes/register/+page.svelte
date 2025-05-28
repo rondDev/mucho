@@ -1,12 +1,11 @@
 <script lang="ts">
   import type { ActionData } from "./$types";
-  import { PUBLIC_DOMAIN } from "$env/static/public";
 
   export let form: ActionData;
 </script>
 
 <svelte:head>
-  <title>Register - {PUBLIC_DOMAIN}</title>
+  <title>Register - mucho</title>
 </svelte:head>
 
 <div class="flex flex-col gap-10 text-white">
@@ -17,20 +16,20 @@
     method="POST"
   >
     <div class="flex flex-col gap-4">
-      <div class="m-1">
+      <div class="m-1 flex flex-col">
         <label class="label pb-2" for="username">Username</label>
         <input
-          class="input h-12 p-5"
+          class="h-12 p-5 border focus:border-orange-600 rounded-lg"
           id="username"
           name="username"
           type="text"
           required
         />
       </div>
-      <div class="m-1">
+      <div class="m-1 flex flex-col">
         <label class="label pb-2" for="password">Password</label>
         <input
-          class="input h-12 p-5"
+          class="h-12 p-5 border focus:border-orange-600 rounded-lg"
           id="password"
           name="password"
           type="password"
@@ -51,12 +50,11 @@
       <p class="error">INVALID!</p>
     {/if}
 
-    <button class="btn variant-filled-primary h-12" type="submit"
-      >Register</button
+    <button class="bg-orange-600 rounded-md h-12" type="submit">Register</button
     >
-    <p class="self-end mt-[-2rem]">
+    <p class="self-center mt-[-2rem]">
       Already have an account? <a
-        class="hover:underline btn-sm variant-form-material"
+        class="underline btn-sm variant-form-material"
         href="/login"
       >
         Log in</a
