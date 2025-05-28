@@ -1,7 +1,7 @@
 import { defineConfig, presetAttributify, presetWind4 } from 'unocss';
 
 export default defineConfig({
-	presets: [presetWind4({ reset: true }), presetAttributify()],
+	presets: [presetWind4({ preflights: { reset: true } }), presetAttributify()],
 	rules: [],
 	shortcuts: [
 		{
