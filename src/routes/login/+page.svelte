@@ -1,23 +1,23 @@
 <script lang="ts">
-import { browser } from '$app/environment';
-import { goto, pushState } from '$app/navigation';
-import { page } from '$app/state';
-import toast, { Toaster } from 'svelte-french-toast';
+  import { browser } from "$app/environment";
+  import { goto, pushState } from "$app/navigation";
+  import { page } from "$app/state";
+  import toast, { Toaster } from "svelte-french-toast";
 
-let { form } = $props();
-if (page.data.justRegistered) {
-	toast.success('Registration successful', {
-		duration: 5000,
-		position: 'bottom-center',
-	});
-	if (browser) {
-		goto('/login', { replaceState: true, noScroll: true, keepFocus: true });
-	}
-}
+  let { form } = $props();
+  if (page.data.justRegistered) {
+    toast.success("Registration successful", {
+      duration: 5000,
+      position: "bottom-center",
+    });
+    if (browser) {
+      goto("/login", { replaceState: true, noScroll: true, keepFocus: true });
+    }
+  }
 </script>
 
 <svelte:head>
-  <title>Login - img.rond.cc</title>
+  <title>Login - mucho</title>
 </svelte:head>
 
 <Toaster />
@@ -29,20 +29,20 @@ if (page.data.justRegistered) {
     method="POST"
   >
     <div class="flex flex-col gap-4">
-      <div class="m-1">
+      <div class="m-1 flex flex-col">
         <label class="label pb-2" for="username">Username</label>
         <input
-          class="input h-12 p-5"
+          class="h-12 p-5 border focus:border-orange-600 rounded-lg"
           id="username"
           name="username"
           type="text"
           required
         />
       </div>
-      <div class="m-1">
+      <div class="m-1 flex flex-col">
         <label class="label pb-2" for="password">Password</label>
         <input
-          class="input h-12 p-5"
+          class="h-12 p-5 border focus:border-orange-600 rounded-lg"
           id="password"
           name="password"
           type="password"
@@ -59,11 +59,10 @@ if (page.data.justRegistered) {
       <p class="error">You have entered the wrong credentials.</p>
     {/if}
 
-    <button class="btn variant-filled-primary h-12" type="submit">Log in</button
-    >
-    <p class="self-end mt-[-2rem]">
+    <button class="bg-orange-600 rounded-md h-12" type="submit">Log in</button>
+    <p class="self-center mt-[-2rem]">
       Not yet registered? <a
-        class="hover:underline btn-sm variant-form-material"
+        class="underline btn-sm variant-form-material"
         href="/register"
       >
         Register here!</a
