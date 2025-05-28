@@ -17,6 +17,7 @@ async function getMetadata(filename: string) {
 			.where('stub', '=', filename)
 			.select([
 				'files.createdAt',
+				'files.fileName',
 				'files.bucket',
 				'files.key',
 				'files.stub',
@@ -31,7 +32,7 @@ async function getMetadata(filename: string) {
 		const file = s3Client.file(fileData.key);
 		const fileStat = await s3Client.stat(fileData.key);
 		return {
-			fileName: filename,
+			fileName: fileData.fileName,
 			size: bytesToSize(fileStat.size || 0),
 			contentType: fileStat.type,
 			uploadedAt: fileData.createdAt,
