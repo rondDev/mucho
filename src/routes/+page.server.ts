@@ -25,7 +25,7 @@ async function getData(locals: App.Locals) {
 			.select([(c) => c.fn.count('id').as('count')])
 			.where('userId', '=', locals.user.id)
 			.executeTakeFirstOrThrow();
-		log.info({ msg: 'userFileCount', content: userFileCount });
+		// log.debug({ msg: 'userFileCount', content: userFileCount });
 
 		if (!userFileCount.count) {
 			return {
@@ -37,7 +37,7 @@ async function getData(locals: App.Locals) {
 			.selectFrom('files')
 			.select([(c) => c.fn.count('id').as('count')])
 			.executeTakeFirstOrThrow();
-		log.info('totalFileCount', totalFileCount);
+		// log.debug('totalFileCount', totalFileCount);
 
 		const userCount = await db
 			.selectFrom('users')
@@ -65,17 +65,17 @@ async function getData(locals: App.Locals) {
 			}
 		}
 
-		log.info({
-			msg: "Return object", content: {
-				returnObject: {
-					userTotal: userFileCount.count,
-					total: totalFileCount.count,
-					userSize: bytesToSize(totalUserSize),
-					totalSize: bytesToSize(totalSize),
-					userCount: userCount.count,
-				}
-			}
-		});
+		// log.debug({
+		// 	msg: "Return object", content: {
+		// 		returnObject: {
+		// 			userTotal: userFileCount.count,
+		// 			total: totalFileCount.count,
+		// 			userSize: bytesToSize(totalUserSize),
+		// 			totalSize: bytesToSize(totalSize),
+		// 			userCount: userCount.count,
+		// 		}
+		// 	}
+		// });
 
 		return {
 			userTotal: userFileCount.count,
