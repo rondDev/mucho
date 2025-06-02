@@ -7,7 +7,8 @@ import { get, readable, type Readable } from 'svelte/store';
 import { ServerEnvironment, type PinoLogger } from '$lib';
 
 // Default log level will be set to silent but will be modified as per the environment in context.
-const defaultLogLevel = 'silent';
+// const defaultLogLevel = 'silent';
+const defaultLogLevel = 'debug';
 
 // This is an IIFE, self executing funtion. It will return the Pino Logger instance
 const pinoLogger: PinoLogger = (() => {
@@ -40,6 +41,14 @@ const pinoLogger: PinoLogger = (() => {
 			formatters: {
 				level: (label) => {
 					return { level: label.toUpperCase() };
+				},
+			},
+			transport: {
+				target: 'pino-pretty',
+				options: {
+					colorize: true, // show colors in log
+					levelFirst: true, // show levels first in log
+					translateTime: true, // translate the time in human readable format
 				},
 			},
 		};
