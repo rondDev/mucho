@@ -84,32 +84,6 @@ async function getData(locals: App.Locals) {
 			totalSize: bytesToSize(totalSize),
 			userCount: userCount.count,
 		};
-
-		// const fileData = await db
-		//   .selectFrom('files')
-		//   .where('fileName', '=', fileUrl)
-		//   .selectAll()
-		//   .executeTakeFirst();
-		//
-		// if (!fileData) {
-		//   return {
-		//     error: 'File not found',
-		//   };
-		// }
-		//
-		// const file = await s3Client.send(
-		//   new GetObjectCommand({
-		//     Bucket: fileData.bucket,
-		//     Key: fileData.key,
-		//   }),
-		// );
-		// const s = file.Body?.transformToWebStream();
-		// if (!s) {
-		//   return {
-		//     error: 'No file found',
-		//   };
-		// }
-		// return sendStream(event, s);
 	} catch (e) {
 		logger.child({ location: "+page.server.ts", context: { user: locals.user } }).error(e)
 		return {
