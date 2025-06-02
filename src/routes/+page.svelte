@@ -33,6 +33,7 @@
           />
           <p class="text-lg ml-2">Total size of your files</p>
         </div>
+        <!-- NOTE: Might like to make number and denominator seperate so we can style denominator differently than the number -->
         <p class="text-4xl mr-6 ml-auto mb-6 mt-auto">{stats?.userSize}</p>
       </div>
       <div class="flex flex-col w-64 h-36 rounded-lg border border-[#888888]">
@@ -59,6 +60,7 @@
           />
           <p class="text-lg ml-2">Total size of all files</p>
         </div>
+        <!-- NOTE: Might like to make number and denominator seperate so we can style denominator differently than the number -->
         <p class="text-4xl mr-6 ml-auto mb-6 mt-auto">{stats?.totalSize}</p>
       </div>
     </div>
