@@ -1,6 +1,6 @@
-import { redirect } from "@sveltejs/kit";
+import { redirect, type Cookies } from "@sveltejs/kit";
 
-export function GET({ cookies }) {
+export function GET({ cookies, locals }: { cookies: Cookies, locals: App.Locals }) {
 	// eat the cookie
 	cookies.set("session", "", {
 		path: "/",
