@@ -40,7 +40,7 @@
         />
       </div>
       <div class="m-1 flex flex-col">
-        <label class="label pb-2" for="password">Password</label>
+        <label class="pb-2" for="password">Password</label>
         <input
           class="h-12 p-5 border focus:border-orange-600 rounded-lg"
           id="password"
