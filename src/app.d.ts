@@ -8,7 +8,7 @@ declare global {
 				id: string;
 				username: string;
 				uploadKey: string;
-			};
+			} | null;
 		}
 		// interface PageData {}
 		// interface PageState {}
@@ -16,4 +16,4 @@ declare global {
 	}
 }
 
-export {};
+export { };
