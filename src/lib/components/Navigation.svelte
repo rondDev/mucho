@@ -38,12 +38,12 @@
     />
   </a>
   <div class="self-center w-1px h-16px bg-[#3f3f3f]"></div>
-  <a href="/account">
+  <a href="/account" data-sveltekit-reload>
     <Icon
       icon="material-symbols:account-circle"
       height="32px"
       width="32px"
-      class={`color-[#575757] menuBarButton ${page.url.pathname === "/account" ? "active" : ""}`}
+      class={`color-[#575757] menuBarButton ${page.url.pathname.startsWith('/account') ? 'active' : ''}`}
       mode="svg"
     />
   </a>
