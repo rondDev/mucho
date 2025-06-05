@@ -1,5 +1,6 @@
 import type { Handle, RequestEvent } from '@sveltejs/kit';
 import { db } from '$lib/db/database';
+import { sql } from 'kysely';
 
 async function getUser(session: string, event: RequestEvent) {
 	const user = await db
@@ -14,6 +15,10 @@ async function getUser(session: string, event: RequestEvent) {
 	}
 }
 
+async function updateSessionsAccess(session: string) {
+	const result = await db.updateTable('sessions').set({ updatedAt: sql`NOW()` }).where('sessionToken', '=', session).executeTakeFirst()
+}
+
 export const handle: Handle = async ({ event, resolve }) => {
 	const { cookies, url } = event;
 	const session = cookies.get('session');
@@ -25,6 +30,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (!event.locals.user && !url.pathname.includes('api'))
 		cookies.delete('session', { path: '/' });
 
+	// TODO: Rework session updates to limit amount of Database calls
+	updateSessionsAccess(session || '')
 	const response = await resolve(event);
 
 	response.headers.append('cache-control', 'no-store');
