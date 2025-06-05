@@ -1,6 +1,6 @@
 <script lang="ts">
-import Icon from '@iconify/svelte';
-import { page } from '$app/state';
+  import Icon from '@iconify/svelte';
+  import { page } from '$app/state';
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -15,7 +15,7 @@ import { page } from '$app/state';
       icon="gravity-ui:house"
       height="32px"
       width="32px"
-      class={`color-[#575757] menuBarButton ${page.url.pathname === "/" ? "active" : ""}`}
+      class={`color-[#575757] menuBarButton ${page.url.pathname === '/' ? 'active' : ''}`}
       mode="svg"
     />
   </a>
@@ -24,7 +24,7 @@ import { page } from '$app/state';
       icon="tabler:stack"
       height="32px"
       width="32px"
-      class={`color-[#575757] menuBarButton ${page.url.pathname === "/files" ? "active" : ""}`}
+      class={`color-[#575757] menuBarButton ${page.url.pathname === '/files' ? 'active' : ''}`}
       mode="svg"
     />
   </a>
@@ -33,7 +33,7 @@ import { page } from '$app/state';
       icon="tabler:settings"
       height="32px"
       width="32px"
-      class={`color-[#575757] menuBarButton ${page.url.pathname === "/config" ? "active" : ""}`}
+      class={`color-[#575757] menuBarButton ${page.url.pathname === '/config' ? 'active' : ''}`}
       mode="svg"
     />
   </a>
