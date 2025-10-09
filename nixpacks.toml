@@ -1,0 +1,2 @@
+[start]
+cmd = "bun --bun run /app/index.js"
