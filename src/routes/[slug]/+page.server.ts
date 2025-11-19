@@ -43,7 +43,7 @@ async function getMetadata(filename: string) {
 		logger.error('[api/files | catch]', e);
 		return {
 			files: {},
-			error: e,
+			error: JSON.stringify(e),
 		};
 	}
 }
