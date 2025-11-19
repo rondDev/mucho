@@ -42,12 +42,14 @@ const login: Action = async ({ cookies, request }) => {
 		.executeTakeFirst();
 
 	if (!user) {
+    logger.error({request, user},"[login/+page.server.ts] No user")
 		return fail(400, { credentials: true });
 	}
 
 	const passwordMatches = await argon2.verify(user.password, password);
 
 	if (!passwordMatches) {
+    logger.error({request, user},"[login/+page.server.ts] No password match")
 		return fail(400, { credentials: true });
 	}
 
@@ -102,7 +104,7 @@ async function createSession(token: string, userId: string): Promise<Session> {
 			.execute();
 		return session;
 	} catch (e) {
-		logger.error('[api/login | createSession]', e);
+		logger.error({e}, '[api/login | createSession]');
 		return { id: '', sessionToken: '', userId: '', expiresAt: new Date() };
 	}
 }

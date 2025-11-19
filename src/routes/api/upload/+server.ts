@@ -10,89 +10,96 @@ import { S3_BUCKET } from '$env/static/private';
 import { logger } from '$lib/stores/logger';
 
 export async function POST({ request }) {
-	try {
-		const formDataBody = await request.formData();
-		const uploadKey = String(formDataBody.get('key'));
-		const fileInput = formDataBody.get('d') as File;
-		const randomizeFilename =
-			String(formDataBody.get('randomize_filename')) === 'true';
-		if (!fileInput) {
-			return json({
-				error: 'No file data provided',
-			});
-		}
+  try {
+    const formDataBody = await request.formData();
+    const uploadKey = String(formDataBody.get('key'));
+    const fileInput = formDataBody.get('d') as File;
+    const randomizeFilename =
+      String(formDataBody.get('randomize_filename')) === 'true';
+    if (!fileInput) {
+      return json({
+        error: 'No file data provided',
+      });
+    }
 
-		if (!uploadKey) {
-			return json(
-				{
-					error: 'Unauthorized',
-				},
-				{ status: 401 },
-			);
-		}
-		const fileObject: {
-			name: string;
-			type: string | undefined;
-			contenttype: string;
-		} = {
-			name: fileInput.name,
-			type: fileInput.type,
-			contenttype: mime.lookup(fileInput.name || '') || '',
-		};
-		if (!fileObject) {
-			return {
-				error: "Couldn't parse a file object or no files were provided",
-			};
-		}
+    if (!uploadKey) {
+      logger.error({
+        error: "Unauthorized",
+        request
+      }, "[api/upload] No file object")
+      return json(
+        {
+          error: 'Unauthorized',
+        },
+        { status: 401 },
+      );
+    }
+    const fileObject: {
+      name: string;
+      type: string | undefined;
+      contenttype: string;
+    } = {
+      name: fileInput.name,
+      type: fileInput.type,
+      contenttype: mime.lookup(fileInput.name || '') || '',
+    };
+    if (!fileObject) {
+      logger.error({
+        error: "Couldn't parse a file object or no files were provided",
+      }, "[api/upload] No file object")
+      return {
+        error: "Couldn't parse a file object or no files were provided",
+      };
+    }
 
-		const user = await db
-			.selectFrom('users')
-			.innerJoin('file_upload_keys as file', 'file.userId', 'users.id')
-			.where('file.uploadKey', '=', uploadKey)
-			.select(['users.id', 'username'])
-			.executeTakeFirst();
+    const user = await db
+      .selectFrom('users')
+      .innerJoin('file_upload_keys as file', 'file.userId', 'users.id')
+      .where('file.uploadKey', '=', uploadKey)
+      .select(['users.id', 'username'])
+      .executeTakeFirst();
 
-		if (!user) {
-			logger.error('[api/upload] Upload key invalid');
-			return {
-				error: 'Upload key invalid',
-			};
-		}
+    if (!user) {
+      logger.error({ user, request }, '[api/upload] Upload key invalid');
+      return {
+        error: 'Upload key invalid',
+      };
+    }
 
-		const fileNameRand = cryptoRandomString({
-			length: 12,
-			type: 'alphanumeric',
-		});
-		// NOTE: Might need to add file extension to the random name
-		console.log(fileObject);
-		const fileName = randomizeFilename
-			? `${fileNameRand}${mime.extension(fileObject.type || '') ? `.${mime.extension(fileObject.type || '')}` : ''}`
-			: fileObject.name;
-		const fileKey = `${user.username}/${fileNameRand}`;
+    const fileNameRand = cryptoRandomString({
+      length: 12,
+      type: 'alphanumeric',
+    });
+    // NOTE: Might need to add file extension to the random name
+    console.log(fileObject);
+    const fileName = randomizeFilename
+      ? `${fileNameRand}${mime.extension(fileObject.type || '') ? `.${mime.extension(fileObject.type || '')}` : ''}`
+      : fileObject.name;
+    const fileKey = `${user.username}/${fileNameRand}`;
 
-		const file = await s3Client.write(fileKey, await fileInput.bytes(), {
-			type: fileObject.type,
-		});
-		await db
-			.insertInto('files')
-			.values({
-				id: createId(),
-				fileName: fileName,
-				fileSize: bytesToSize(fileInput.size),
-				mimeType: fileObject.contenttype,
-				bucket: S3_BUCKET || 'image',
-				key: fileKey,
-				userId: user.id,
-				stub: fileNameRand,
-			})
-			.execute();
-		return json({
-			url: `${PUBLIC_DOMAIN}/${fileNameRand}`,
-		});
-	} catch (e) {
-		logger.error('[api/upload | catch]', e);
-		return json({
-			error: e,
-		});
-	}
+    const file = await s3Client.write(fileKey, await fileInput.bytes(), {
+      type: fileObject.type,
+    });
+    await db
+      .insertInto('files')
+      .values({
+        id: createId(),
+        fileName: fileName,
+        fileSize: bytesToSize(fileInput.size),
+        mimeType: fileObject.contenttype,
+        bucket: S3_BUCKET || 'image',
+        key: fileKey,
+        userId: user.id,
+        stub: fileNameRand,
+      })
+      .execute();
+    return json({
+      url: `${PUBLIC_DOMAIN}/${fileNameRand}`,
+    });
+  } catch (e) {
+    logger.error({e, request},'[api/upload | catch]');
+    return json({
+      error: e,
+    });
+  }
 }
