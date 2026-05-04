@@ -3,9 +3,9 @@ import { s3Client } from '$lib/s3';
 import { logger } from '$lib/stores/logger';
 import { bytesToSize } from '$lib/utils';
 import { redirect } from '@sveltejs/kit';
-import type { PageLoad } from './$types';
+import imageSize from 'image-size';
 
-export const load: PageLoad = async ({ params }) => {
+export const load = async ({ params }) => {
 	return await getMetadata(params.slug);
 };
 
@@ -31,7 +31,9 @@ async function getMetadata(filename: string) {
 
 		const file = s3Client.file(fileData.key);
 		const fileStat = await s3Client.stat(fileData.key);
+    const imageDimension = imageSize(await file.bytes());
 		return {
+      imageDimension,
 			fileName: fileData.fileName,
 			size: bytesToSize(fileStat.size || 0),
 			contentType: fileStat.type,
@@ -40,7 +42,7 @@ async function getMetadata(filename: string) {
 			stub: fileData.stub,
 		};
 	} catch (e) {
-		logger.error('[api/files | catch]', e);
+		logger.error({e}, '[api/files | catch]');
 		return {
 			files: {},
 			error: JSON.stringify(e),

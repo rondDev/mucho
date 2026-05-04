@@ -8,6 +8,7 @@
         "@paralleldrive/cuid2": "^2.3.1",
         "argon2": "^0.43.1",
         "crypto-random-string": "^5.0.0",
+        "image-size": "^2.0.2",
         "javascript-time-ago": "^2.5.12",
         "kysely": "^0.28.8",
         "mime-types": "^3.0.1",
@@ -557,6 +558,8 @@
     "help-me": ["help-me@5.0.0", "", {}, "sha512-7xgomUX6ADmcYzFik0HzAxh/73YlKR9bmFzf51CZwR+b6YtzU2m0u49hQCqV6SvlqIqsaxovfwdvbnsw3b/zpg=="],
 
     "html-void-elements": ["html-void-elements@3.0.0", "", {}, "sha512-bEqo66MRXsUGxWHV5IP0PUiAWwoEjba4VCzg0LjFJBpchPaTfyfCKTG6bc5F8ucKec3q5y6qOdGyYTSBEvhCrg=="],
+
+    "image-size": ["image-size@2.0.2", "", { "bin": { "image-size": "bin/image-size.js" } }, "sha512-IRqXKlaXwgSMAMtpNzZa1ZAe8m+Sa1770Dhk8VkSsP9LS+iHD62Zd8FQKs8fbPiagBE7BzoFX23cxFnwshpV6w=="],
 
     "imagetools-core": ["imagetools-core@7.1.0", "", {}, "sha512-8Aa4NecBBGmTkaAUjcuRYgTPKHCsBEWYmCnvKCL6/bxedehtVVFyZPdXe8DD0Nevd6UWBq85ifUaJ8498lgqNQ=="],
 

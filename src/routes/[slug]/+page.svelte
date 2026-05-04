@@ -3,7 +3,7 @@
   import { PUBLIC_DOMAIN } from '$env/static/public';
   import { relativeTime } from '$lib/utils';
   const { data } = $props();
-  const { fileName, size, contentType, uploadedAt, uploader, stub } =
+  const { fileName, imageDimension, size, contentType, uploadedAt, uploader, stub } =
     $state(data);
 </script>
 
@@ -15,8 +15,8 @@
       href={`${PUBLIC_DOMAIN}/api/oembed`}
     />
     <meta property="og:image" content={`${PUBLIC_DOMAIN}/api/file/${stub}`} />
-    <!-- <meta property="og:image:width" content={`${""}`} /> -->
-    <!-- <meta property="og:image:height" content={`${""}`} /> -->
+    <meta property="og:image:width" content={`${imageDimension.width}`} />
+    <meta property="og:image:height" content={`${imageDimension.height}`} />
     <meta name="twitter:card" content="summary_large_image" />
   {/if}
   {#if contentType && contentType.includes('video')}
